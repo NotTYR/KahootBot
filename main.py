@@ -1,6 +1,9 @@
 import random
 import time
 
+##change it yourself
+name = "Jun Xi"
+## I am a free child labour
 questioncount = 10
 link = "https://kahoot.it/challenge/01328379?challenge-id=125394b4-cab1-4758-afa8-7774fc3b4bae_1678713359146"
 from selenium import webdriver
@@ -36,7 +39,7 @@ while True:
         break
     except:
         continue
-nickname.send_keys("BotsSuperior"+ str(random.randint(1, 10000)))
+nickname.send_keys(name + " " + str(random.randint(1, 1000)))
 time.sleep(1)
 go = driver.find_element('xpath', '//button[@type="submit"]')
 go.click()
