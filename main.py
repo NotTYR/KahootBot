@@ -2,13 +2,17 @@ import random
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+ok = input('do you have answer y/n')
 driver = webdriver.Chrome(options=Options())
+randomlyGeneratedNumber = str(random.randint(1, 10000))
 ##change it yourself
-name = "botss slay   "
+name = "botss slay"
+raresymbol = "HJASHDFJdasbfncUCFHcfhdsdjhbg"
+anotherone = "iumcuiucn47yasducfngshzdfg"
 ## I am a free child labour
 questioncount = 10
 link = "https://kahoot.it/challenge/125394b4-cab1-4758-afa8-7774fc3b4bae_1679919049723"
-driver.get(link)
+allanswers = []
 def WaitForQuestion():
     while True:
         try:
@@ -16,22 +20,34 @@ def WaitForQuestion():
             break
         except:
             continue
-
 def GetCorrectOptions():
-    while True:
-        try:
-            while True:
-                try:
-                    driver.find_element('xpath', "//main/div[3]/div[not(@disabled)][1]")
-                    break
-                except:
-                    continue
-            options = driver.find_elements('xpath', "//main/div[3]/div[not(@disabled)]")
-            print(str(len(options)))
-            break
-        except:
-            continue
+    with open("answer.txt", 'w') as text:
+        while True:
+            try:
+                while True:
+                    try:
+                        driver.find_element('xpath', "//main/div[3]/div")
+                        time.sleep(1)
+                        break
+                    except:
+                        continue
+                options = driver.find_elements('xpath', "//main/div[3]/div[not(@disabled)]")
+                correctoptions = []
+                for option in options:
+                    correctoptions.append(option.text)
+                allanswers.append(raresymbol.join(correctoptions))
+                text.write(anotherone.join(allanswers))
+                break
+            except:
+                continue
 
+def AnswerList():
+    with open("answer.txt") as slay:
+        return slay.read().split(anotherone)
+
+def OptionOTTF(number):
+    button = driver.find_element('xpath', f"html/body/div/div/div/div/div/div/div/main/div[2]/button[{number}]")
+    button.click()
 def Option(answer):
     i = 0
     options = driver.find_element('xpath', f"html/body/div/div/div/div/div/div/div/main/div[2]").text.split('\n')
@@ -44,14 +60,17 @@ def GetOptionText(option):
     return driver.find_element('xpath', f"html/body/div/div/div/div/div/div/div/main/div[2]/button[{option}]/span/span").text
 
 def Submit():
-    submit = driver.find_element('xpath', "html/body/div/div/div/div/div/div/div/main/div[1]/div[3]/div/button")
-    submit.click()
+    try:
+        submit = driver.find_element('xpath', "html/body/div/div/div/div/div/div/div/main/div[1]/div[3]/div/button")
+        submit.click()
+    except:
+        pass
 
 def Username():
     while True:
         try:
             nickname = driver.find_element('xpath', '//input[@id="nickname"]')
-            nickname.send_keys(name)
+            nickname.send_keys(name + " " + randomlyGeneratedNumber)
             time.sleep(1)
             go = driver.find_element('xpath', '//button[@type="submit"]')
             go.click()
@@ -67,15 +86,7 @@ def Username():
             break
         except:
             continue
-
-Username()
-for question in range(1, questioncount + 1):
-    WaitForQuestion()
-    with open("question" + str(question) + ".txt") as f:
-        answers = f.read().splitlines()
-        for answer in answers:
-            Option(answer)
-    GetCorrectOptions()
+def Next():
     while True:
         try:
             nextqn = driver.find_element('xpath', '//button[@data-functional-selector="next-button"]')
@@ -90,4 +101,27 @@ for question in range(1, questioncount + 1):
             break
         except:
             continue
-while True:
+
+if ok == "n":
+    driver.get(link)
+    Username()
+    for question in range(questioncount):
+        WaitForQuestion()
+        OptionOTTF(1)
+        Submit()
+        GetCorrectOptions()
+        Next()
+if ok == "y":
+    driver.get(link)
+    Username()
+    for question in range(questioncount):
+        WaitForQuestion()
+        answerlist = AnswerList()
+        if len(answerlist) <= question:
+            answers = []
+        else:
+            answers = answerlist[question].split(raresymbol)
+        for answer in answers:
+            Option(answer)
+        Submit()
+        Next()
