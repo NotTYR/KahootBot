@@ -76,7 +76,7 @@ def Username():
             go.click()
             break
         except:
-            continue
+            pass
         try:
             spin = driver.find_element('xpath', '//button[@data-functional-selector="namerator-spin-button"]')
             spin.click()
@@ -85,7 +85,7 @@ def Username():
             okgo.click()
             break
         except:
-            continue
+            pass
 def Next():
     while True:
         try:
