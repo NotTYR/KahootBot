@@ -1,16 +1,14 @@
 import random
 import time
-
-##change it yourself
-name = "Jun Xi"
-## I am a free child labour
-questioncount = 10
-link = "https://kahoot.it/challenge/01328379?challenge-id=125394b4-cab1-4758-afa8-7774fc3b4bae_1678713359146"
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 driver = webdriver.Chrome(options=Options())
+##change it yourself
+name = "botss slay   "
+## I am a free child labour
+questioncount = 10
+link = "https://kahoot.it/challenge/125394b4-cab1-4758-afa8-7774fc3b4bae_1679919049723"
 driver.get(link)
-nickname = None
 def WaitForQuestion():
     while True:
         try:
@@ -19,8 +17,23 @@ def WaitForQuestion():
         except:
             continue
 
+def GetCorrectOptions():
+    while True:
+        try:
+            while True:
+                try:
+                    driver.find_element('xpath', "//main/div[3]/div[not(@disabled)][1]")
+                    break
+                except:
+                    continue
+            options = driver.find_elements('xpath', "//main/div[3]/div[not(@disabled)]")
+            print(str(len(options)))
+            break
+        except:
+            continue
+
 def Option(answer):
-    i = 0;
+    i = 0
     options = driver.find_element('xpath', f"html/body/div/div/div/div/div/div/div/main/div[2]").text.split('\n')
     for option in options:
         i += 1
@@ -33,23 +46,36 @@ def GetOptionText(option):
 def Submit():
     submit = driver.find_element('xpath', "html/body/div/div/div/div/div/div/div/main/div[1]/div[3]/div/button")
     submit.click()
-while True:
-    try:
-        nickname = driver.find_element('xpath', '//input[@id="nickname"]')
-        break
-    except:
-        continue
-nickname.send_keys(name + " " + str(random.randint(1, 1000)))
-time.sleep(1)
-go = driver.find_element('xpath', '//button[@type="submit"]')
-go.click()
+
+def Username():
+    while True:
+        try:
+            nickname = driver.find_element('xpath', '//input[@id="nickname"]')
+            nickname.send_keys(name)
+            time.sleep(1)
+            go = driver.find_element('xpath', '//button[@type="submit"]')
+            go.click()
+            break
+        except:
+            continue
+        try:
+            spin = driver.find_element('xpath', '//button[@data-functional-selector="namerator-spin-button"]')
+            spin.click()
+            time.sleep(5)
+            okgo = driver.find_element('xpath', '//button[@data-functional-selector="namerator-continue-button"]')
+            okgo.click()
+            break
+        except:
+            continue
+
+Username()
 for question in range(1, questioncount + 1):
     WaitForQuestion()
     with open("question" + str(question) + ".txt") as f:
         answers = f.read().splitlines()
         for answer in answers:
             Option(answer)
-    Submit()
+    GetCorrectOptions()
     while True:
         try:
             nextqn = driver.find_element('xpath', '//button[@data-functional-selector="next-button"]')
@@ -65,4 +91,3 @@ for question in range(1, questioncount + 1):
         except:
             continue
 while True:
-    pass
