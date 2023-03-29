@@ -3,7 +3,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 driver = webdriver.Chrome(options=Options())
-randomlyGeneratedNumber = str(random.randint(1, 10000))
 ##change it yourself
 name = "俊熙"
 raresymbol = "HJASHDFJdasbfncUCFHcfhdsdjhbg"
@@ -12,6 +11,10 @@ anotherone = "iumcuiucn47yasducfngshzdfg"
 questioncount = 10
 link = "https://kahoot.it/challenge/125394b4-cab1-4758-afa8-7774fc3b4bae_1679919021819"
 allanswers = []
+
+def rng():
+    return str(random.randint(1, 10000))
+
 def WaitForQuestion():
     while True:
         try:
@@ -79,7 +82,7 @@ def Username():
             pass
         try:
             nickname = driver.find_element('xpath', '//input[@id="nickname"]')
-            nickname.send_keys(name + " " + randomlyGeneratedNumber)
+            nickname.send_keys(name + " " + rng())
             while True:
                 try:
                     go = driver.find_element('xpath', '//button[@type="submit"]')
