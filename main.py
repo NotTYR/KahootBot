@@ -2,19 +2,23 @@ import random
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-ok = input('do you have answer y/n')
 driver = webdriver.Chrome(options=Options())
 randomlyGeneratedNumber = str(random.randint(1, 10000))
 ##change it yourself
-name = "botss slay"
+name = "俊熙"
 raresymbol = "HJASHDFJdasbfncUCFHcfhdsdjhbg"
 anotherone = "iumcuiucn47yasducfngshzdfg"
 ## I am a free child labour
 questioncount = 10
-link = "https://kahoot.it/challenge/125394b4-cab1-4758-afa8-7774fc3b4bae_1679919049723"
+link = "https://kahoot.it/challenge/125394b4-cab1-4758-afa8-7774fc3b4bae_1679919021819"
 allanswers = []
 def WaitForQuestion():
     while True:
+        try:
+            driver.find_element('xpath', '//div[@data-functional-selector="dialog-actions"]/button').click()
+            Username()
+        except:
+            pass
         try:
             driver.find_element('xpath', '//div[@data-functional-selector="countdown__count"]')
             break
@@ -69,11 +73,20 @@ def Submit():
 def Username():
     while True:
         try:
+            notme = driver.find_element('xpath', '//button[@data-functional-selector="challenge-progress__cancel"]')
+            notme.click()
+        except:
+            pass
+        try:
             nickname = driver.find_element('xpath', '//input[@id="nickname"]')
             nickname.send_keys(name + " " + randomlyGeneratedNumber)
-            time.sleep(1)
-            go = driver.find_element('xpath', '//button[@type="submit"]')
-            go.click()
+            while True:
+                try:
+                    go = driver.find_element('xpath', '//button[@type="submit"]')
+                    go.click()
+                    break
+                except:
+                    pass
             break
         except:
             pass
@@ -96,32 +109,36 @@ def Next():
             continue
     while True:
         try:
+            driver.find_element('xpath', '//div[@data-functional-selector="time-left"]')
+            break
+        except:
+            pass
+        try:
             scorenextqn = driver.find_element('xpath', '//button[@data-functional-selector="score-next-button"]')
             scorenextqn.click()
             break
         except:
             continue
 
-if ok == "n":
-    driver.get(link)
-    Username()
-    for question in range(questioncount):
-        WaitForQuestion()
-        OptionOTTF(1)
-        Submit()
-        GetCorrectOptions()
-        Next()
-if ok == "y":
-    driver.get(link)
-    Username()
-    for question in range(questioncount):
-        WaitForQuestion()
-        answerlist = AnswerList()
-        if len(answerlist) <= question:
-            answers = []
-        else:
-            answers = answerlist[question].split(raresymbol)
-        for answer in answers:
-            Option(answer)
-        Submit()
-        Next()
+
+driver.get(link)
+Username()
+for question in range(questioncount):
+    WaitForQuestion()
+    OptionOTTF(1)
+    Submit()
+    GetCorrectOptions()
+    Next()
+driver.get(link)
+Username()
+for question in range(questioncount):
+    WaitForQuestion()
+    answerlist = AnswerList()
+    if len(answerlist) <= question:
+        answers = []
+    else:
+        answers = answerlist[question].split(raresymbol)
+    for answer in answers:
+        Option(answer)
+    Submit()
+    Next()
