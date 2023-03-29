@@ -145,3 +145,5 @@ for question in range(questioncount):
         Option(answer)
     Submit()
     Next()
+while True:
+    pass
