@@ -84,7 +84,7 @@ def Username():
         try:
             nickname = driver.find_element('xpath', '//input[@id="nickname"]')
             if stage == 0:
-                nickname.send_keys(rng())
+                nickname.send_keys("fuck")
             else:
                 nickname.send_keys(name)
             while True:
