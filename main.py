@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 driver = webdriver.Chrome(options=Options())
 ##change it yourself
 name = "俊熙"
+stage = 0
 raresymbol = "HJASHDFJdasbfncUCFHcfhdsdjhbg"
 anotherone = "iumcuiucn47yasducfngshzdfg"
 ## I am a free child labour
@@ -82,7 +83,10 @@ def Username():
             pass
         try:
             nickname = driver.find_element('xpath', '//input[@id="nickname"]')
-            nickname.send_keys(name + " " + rng())
+            if stage == 0:
+                nickname.send_keys(rng())
+            else:
+                nickname.send_keys(name)
             while True:
                 try:
                     go = driver.find_element('xpath', '//button[@type="submit"]')
@@ -132,6 +136,7 @@ for question in range(questioncount):
     Submit()
     GetCorrectOptions()
     Next()
+stage = 1
 driver.get(link)
 Username()
 for question in range(questioncount):
